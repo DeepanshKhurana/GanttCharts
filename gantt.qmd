@@ -1,0 +1,100 @@
+---
+title: "Gantt Example"
+author: "Deepansh Khurana"
+format:
+  html:
+    code-fold: true
+editor: visual
+---
+
+## Setup
+
+In the block below, we make a dataframe with the following columns: `project_name`, `start_date`, `end_date`, `link`, `category`
+
+```{r "setup"}
+#| warning: false
+
+library(plotly)
+source("plot_gantt.R")
+
+gantt_df <- data.frame(
+    project_name = c(
+      "Project D",
+      "Project E",
+      "Project F",
+      "Project G",
+      "Project H",
+      "Project I",
+      "Project J",
+      "Project K",
+      "Project L",
+      "Project M"
+    ),
+     start_date = as.Date(
+      c(
+        "2024-01-01",
+        "2024-02-15",
+        "2024-03-10",
+        "2024-05-01",
+        "2024-06-15",
+        "2024-07-10",
+        "2024-08-05",
+        "2024-09-20",
+        "2024-10-01",
+        "2024-11-10"
+      )
+    ),
+    end_date = as.Date(
+      c(
+        "2024-03-15",
+        "2024-04-25",
+        "2024-05-10",
+        "2024-06-15",
+        "2024-07-25",
+        "2024-08-20",
+        "2024-09-10",
+        "2024-10-25",
+        "2024-11-10",
+        "2024-12-15"
+      )
+    ),
+    link = c(
+      "http://projectd.com",
+      "http://projecte.com",
+      "http://projectf.com",
+      "http://projectg.com",
+      "http://projecth.com",
+      "http://projecti.com",
+      "http://projectj.com",
+      "http://projectk.com",
+      "http://projectl.com",
+      "http://projectm.com"
+    ),
+    category = c(
+      "Category X",
+      "Category Y",
+      "Category Z",
+      "Category X",
+      "Category Y",
+      "Category Z",
+      "Category X",
+      "Category Y",
+      "Category Z",
+      "Category X"
+    )
+  )
+```
+
+## Making the Plot
+
+```{r}
+#| warning: false
+
+gantt_df <- gantt_df |>
+  dplyr::arrange(
+    dplyr::desc(start_date)
+  )
+
+plot_gantt(gantt_df)
+
+```
