@@ -6,7 +6,9 @@ plot_gantt <- function(df) {
     "<a href='{df$link}'>{df$project_name}</a>   "
   )
 
-  fig <- plot_ly()
+  # Plotly throws a warning that spams the log when type is not specified
+  # mode keeps the plot empty but also avoids another warning from plotly
+  fig <- plot_ly(type = "scatter", mode = "none")
 
   if (nrow(df) > 0) {
     for (i in 1:(nrow(df))) {
