@@ -1,9 +1,9 @@
-plot_gantt <- function(df) {
+plot_gantt <- function(df, today_line_length = 1) {
 
   df$duration <- df$end_date - df$start_date
 
   df$project_link <- glue::glue(
-    "<a href='{df$link}'>{df$project_name}</a>   "
+    "<a href='{df$link}'>{df$project_name}     </a>"
   )
 
   # Plotly throws a warning that spams the log when type is not specified
@@ -18,7 +18,7 @@ plot_gantt <- function(df) {
         x = c(df$start_date[i], df$start_date[i] + df$duration[i]), # x0, x1
         y = c(i, i), # y0, y1
         mode = "lines",
-        line = list(color = df$color[i], width = 20),
+        line = list(color = df$color[i], width = 15),
         showlegend = FALSE,
         hoverinfo = "text",
         text = paste(
@@ -40,20 +40,30 @@ plot_gantt <- function(df) {
         tickfont = list(color = "#333638")
       ),
       yaxis = list(
-        showgrid = FALSE, tickfont = list(color = "#333638"),
-        tickmode = "array", tickvals = 1:nrow(df),
-        ticktext = paste(
-          df$category,
-          df$project_link,
-          sep = ": "
-        ),
+        showgrid = FALSE,
+        tickfont = list(color = "#333638"),
+        tickmode = "array",
+        tickvals = 1:nrow(df),
+        ticktext = df$project_link,
         domain = c(0, 0.9),
-        automargin = TRUE
+        automargin = TRUE,
+        align = "left"
       ),
-      plot_bgcolor = "#faf9f6",
-      paper_bgcolor = "#faf9f6",
+      plot_bgcolor = "#f3eeec",
+      paper_bgcolor = "#f3eeec",
       shapes = list(
-        today_line()
+        today_line(today_line_length = today_line_length)
+      ),
+      annotations = list(
+        text = unique(df$category),
+        x = -0.1,
+        y = 6,
+        xref = "paper",
+        showarrow = FALSE,
+        font = list(
+          color = "#333638",
+          size = 16
+        )
       ),
       autosize = TRUE
     )
@@ -62,11 +72,11 @@ plot_gantt <- function(df) {
   fig
 }
 
-today_line <- function(color = "red") {
+today_line <- function(color = "red", today_line_length = 1) {
   list(
     type = "line",
     y0 = 0,
-    y1 = 0.9,
+    y1 = today_line_length,
     yref = "paper",
     x0 = as.Date(Sys.Date()),
     x1 = as.Date(Sys.Date()),

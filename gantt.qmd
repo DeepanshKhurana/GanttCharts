@@ -15,7 +15,7 @@ In the block below, we make a dataframe with the following columns: `project_nam
 #| warning: false
 
 library(plotly)
-source("plot_gantt.R")
+source("plot_gantt_split.R")
 
 gantt_df <- data.frame(
     project_name = c(
@@ -95,6 +95,6 @@ gantt_df <- gantt_df |>
     dplyr::desc(start_date)
   )
 
-plot_gantt(gantt_df)
+plot_gantt_split(gantt_df)
 
 ```
